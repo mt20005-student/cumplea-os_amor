@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Nuestra Historia - Edición Especial Decorada</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Dancing+Script:wght@600;700&family=Lora:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="welcomeOverlay" class="welcome-overlay">
+    <div class="welcome-card">
+      <div class="welcome-card__heart">❤</div>
+      <h1 class="welcome-card__title">Un Detalle Especial</h1>
+      <p class="welcome-card__text">He preparado este libro de recuerdos con mucho amor para celebrar tu día... ✨</p>
+      <button id="entryBtn" class="welcome-card__btn">Abrir Libro 📖</button>
+    </div>
+  </div>
+
+  <div class="ambient-decor" aria-hidden="true">
+    <div class="sparkle">✨</div>
+    <div class="sparkle">✨</div>
+    <div class="balloon">🎈</div>
+    <div class="balloon">🎈</div>
+    <div class="petals">🌸</div>
+  </div>
+
+  <main class="scene" id="scene">
+    <div class="scene__container">
+      <article class="book" id="book" aria-label="Libro de recuerdos interactivo"></article>
+      
+      <nav class="book-nav" aria-label="Navegación del libro">
+        <button class="book-nav__btn book-nav__btn--prev" id="prevBtn" aria-label="Página anterior" disabled>❮</button>
+        <button class="book-nav__btn book-nav__btn--next" id="nextBtn" aria-label="Página siguiente">❯</button>
+      </nav>
+    </div>
+  </main>
+
+  <audio id="bgMusic" src="musica.mp3" loop></audio>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,574 @@
+/* ===== PALETA DE COLOR VIOLETA REAL & ORO ===== */
+:root {
+  --bg-gradient: radial-gradient(circle at center, #4a154b 0%, #150217 100%);
+  --cover-bg: linear-gradient(135deg, #3d0c40 0%, #1d0321 100%);
+  --page-bg: linear-gradient(to right, #ecdff7 0%, #cc96e6 100%);
+  --gold-primary: #d4af37;
+  --gold-dark: #aa8413;
+  --text-dark: #2c0833;
+  --text-muted: #5c1d66;
+  
+  --font-serif: 'Lora', serif;
+  --font-fancy: 'Dancing Script', cursive;
+  --font-royal: 'Cinzel', serif;
+  
+  --transition-speed: 0.85s;
+  --easing: cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: var(--font-serif);
+  background: var(--bg-gradient);
+  touch-action: none;
+}
+
+/* ===== ELEMENTOS AMBIENTALES DE FONDO EXTERNO ===== */
+.ambient-decor {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+.sparkle, .balloon, .petals {
+  position: absolute;
+  bottom: -10%;
+  animation: floatUp 14s infinite linear;
+  opacity: 0.35;
+}
+.sparkle:nth-child(1) { left: 12%; font-size: 1.5rem; animation-duration: 9s; }
+.sparkle:nth-child(2) { left: 88%; font-size: 1.8rem; animation-duration: 11s; animation-delay: 2s; }
+.balloon:nth-child(3) { left: 6%; font-size: 2.8rem; animation-duration: 18s; }
+.balloon:nth-child(4) { left: 82%; font-size: 3.2rem; animation-duration: 22s; animation-delay: 4s; }
+.petals:nth-child(5) { left: 50%; animation-duration: 15s; font-size: 1.3rem; }
+
+@keyframes floatUp {
+  0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+  15% { opacity: 0.4; }
+  85% { opacity: 0.4; }
+  100% { transform: translateY(-125vh) rotate(360deg); opacity: 0; }
+}
+
+/* ===== ESCENA Y ESTRUCTURA DEL LIBRO ===== */
+.scene {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+}
+.scene__container {
+  position: relative;
+  width: 92vw;
+  max-width: 860px;
+  height: 72vh;
+  max-height: 620px;
+  perspective: 2500px;
+  transform-style: preserve-3d;
+}
+.book {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  background: #1d0321;
+  box-shadow: 0 30px 70px rgba(0,0,0,0.85);
+  border-radius: 16px;
+}
+.book::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 6px;
+  height: 100%;
+  background: linear-gradient(to right, var(--gold-dark), var(--gold-primary), var(--gold-dark));
+  transform: translateX(-50%) translateZ(2px);
+  z-index: 150;
+}
+
+/* ===== PANEL ESTÁTICO DE BIENVENIDA (IZQUIERDA) ===== */
+.book__static-left-cover {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  background: var(--cover-bg);
+  border-radius: 14px 0 0 14px;
+  padding: 8%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  box-shadow: inset -20px 0 30px rgba(0,0,0,0.6);
+  border: 3px solid var(--gold-primary);
+  border-right: none;
+}
+.static-left-content {
+  text-align: center;
+  color: #fff;
+  border: 1px dashed rgba(214, 175, 55, 0.4);
+  padding: 20px 15px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.static-left-content__title {
+  font-family: var(--font-royal);
+  color: var(--gold-primary);
+  font-size: clamp(1.1rem, 2vw, 1.6rem);
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+  min-height: 2rem;
+}
+.static-left-content__text {
+  font-family: var(--font-fancy);
+  font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+  line-height: 1.5;
+  color: #f5f0f6;
+  min-height: 6rem;
+}
+
+/* ===== HOJAS INTERACTIVAS ===== */
+.book__page {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transform-origin: left center;
+  will-change: transform, z-index;
+}
+.book__page--animated { transition: transform var(--transition-speed) var(--easing); }
+
+.page-face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 9%;
+  overflow: hidden;
+}
+.page-face--front {
+  background: var(--page-bg);
+  transform: rotateY(0deg) translateZ(1px);
+  box-shadow: inset 25px 0 35px -20px rgba(0, 0, 0, 0.18);
+  border-radius: 0 14px 14px 0;
+}
+.page-face--back {
+  background: var(--page-bg);
+  transform: rotateY(180deg) translateZ(1px);
+  box-shadow: inset -25px 0 35px -20px rgba(0, 0, 0, 0.18);
+  border-radius: 14px 0 0 14px;
+}
+
+/* Portada Principal Derecha */
+.page-face--cover-front {
+  background: var(--cover-bg);
+  border: 3px solid var(--gold-primary);
+  border-left: none;
+  box-shadow: inset 0 0 40px rgba(0,0,0,0.8);
+}
+.cover-design {
+  text-align: center;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%; width: 100%;
+  border: 1px dashed rgba(214, 175, 55, 0.3);
+  padding: 15px;
+  position: relative;
+  z-index: 10;
+}
+.cover-design__title {
+  font-family: var(--font-royal);
+  font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+  color: var(--gold-primary);
+  letter-spacing: 3px;
+  margin-bottom: 15px;
+  text-shadow: 2px 4px 8px rgba(0,0,0,0.6);
+  min-height: 3rem;
+}
+.cover-design__subtitle {
+  font-family: var(--font-fancy);
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  min-height: 2.5rem;
+}
+
+/* CONTENEDOR DE FOTOS */
+.photo-frame {
+  position: relative;
+  width: 100%;
+  height: 66%;
+  padding: 10px;
+  background: #fff;
+  box-shadow: 0 12px 28px rgba(44, 8, 51, 0.18);
+  border: 1px solid rgba(214, 175, 55, 0.4);
+  margin-bottom: 1.2rem;
+  z-index: 10;
+}
+.photo-frame__corner {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid var(--gold-primary);
+}
+.photo-frame__corner--tl { top: 4px; left: 4px; border-right: none; border-bottom: none; }
+.photo-frame__corner--tr { top: 4px; right: 4px; border-left: none; border-bottom: none; }
+.photo-frame__corner--bl { bottom: 4px; left: 4px; border-right: none; border-top: none; }
+.photo-frame__corner--br { bottom: 4px; right: 4px; border-left: none; border-top: none; }
+.photo-frame__img { width: 100%; height: 100%; object-fit: cover; }
+
+.page-content__caption {
+  font-family: var(--font-fancy);
+  font-size: clamp(1.4rem, 2.4vw, 2rem);
+  color: var(--text-dark);
+  text-align: center;
+  min-height: 2.5rem;
+  z-index: 10;
+}
+
+.page-content__text-container {
+  padding: 8%;
+  border: 1px dashed rgba(92, 29, 102, 0.2);
+  border-radius: 8px;
+  background: rgba(255,255,255,0.45);
+  width: 100%;
+  z-index: 10;
+}
+.page-content__text {
+  font-size: clamp(1.1rem, 1.9vw, 1.35rem);
+  color: var(--text-dark);
+  text-align: center;
+  line-height: 1.8;
+  font-style: italic;
+  min-height: 5rem;
+}
+
+/* ===== DECORACIONES INTERNAS DE LAS HOJAS ===== */
+.page-decor-container {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+}
+.page-corner-ornament {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  opacity: 0.2;
+  border: 1.5px solid var(--gold-primary);
+  transition: opacity 0.3s;
+}
+.page-face:hover .page-corner-ornament { opacity: 0.45; }
+.page-corner-ornament--tl { top: 16px; left: 16px; border-right: none; border-bottom: none; border-radius: 4px 0 0 0; }
+.page-corner-ornament--tr { top: 16px; right: 16px; border-left: none; border-bottom: none; border-radius: 0 4px 0 0; }
+.page-corner-ornament--bl { bottom: 16px; left: 16px; border-right: none; border-top: none; border-radius: 0 0 0 4px; }
+.page-corner-ornament--br { bottom: 16px; right: 16px; border-left: none; border-top: none; border-radius: 0 0 4px 0; }
+
+.page-floating-item {
+  position: absolute;
+  font-size: clamp(0.8rem, 1.6vw, 1.1rem);
+  user-select: none;
+  opacity: 0.15;
+}
+.page-floating-item--heart1 { top: 8%; left: 10%; animation: pulseHeart 3s infinite ease-in-out; color: #d63031; }
+.page-floating-item--heart2 { bottom: 8%; right: 10%; animation: pulseHeart 3.5s infinite ease-in-out 0.8s; color: #d63031; }
+.page-floating-item--star1 { top: 8%; right: 12%; animation: spinSparkle 4s infinite linear; color: var(--gold-primary); }
+.page-floating-item--star2 { bottom: 8%; left: 12%; animation: spinSparkle 4.5s infinite linear 0.4s; color: var(--gold-primary); }
+
+@keyframes pulseHeart {
+  0%, 100% { transform: scale(3) rotate(0deg); opacity: 0.15; }
+  50% { transform: scale(1.25) rotate(8deg); opacity: 0.35; }
+}
+@keyframes spinSparkle {
+  0% { transform: rotate(0deg) scale(3); opacity: 0.12; }
+  50% { transform: rotate(180deg) scale(1.2); opacity: 0.3; }
+  100% { transform: rotate(360deg) scale(1); opacity: 0.12; }
+}
+
+/* ===== EFECTO CURSOR DE TECLADO MÁGICO ===== */
+.js-typewriter { display: inline-block; }
+.js-typewriter::after {
+  content: '|';
+  display: inline-block;
+  margin-left: 3px;
+  color: var(--gold-primary);
+  animation: blink 0.7s infinite;
+}
+.js-typewriter--typing-complete::after {
+  content: '';
+  display: none;
+}
+@keyframes blink {
+  0%, 100% { opacity: 0; }
+  50% { opacity: 1; }
+}
+
+/* ===== EL SOBRE INTERACTIVO FINAL ===== */
+.envelope-wrapper {
+  position: relative;
+  width: 95%;
+  height: 70%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+}
+.envelope {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #6c3483;
+  border-radius: 8px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+  cursor: pointer;
+  transform-style: preserve-3d;
+}
+.envelope__flap {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 55%;
+  background: #5b2c6f;
+  transform-origin: top center;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transition: transform 0.5s var(--easing), z-index 0.5s;
+  z-index: 4;
+}
+.envelope__pocket {
+  position: absolute;
+  bottom: 0; left: 0; width: 100%; height: 65%;
+  background: #7d3c98;
+  clip-path: polygon(0 35%, 50% 0, 100% 35%, 100% 100%, 0 100%);
+  z-index: 3;
+  border-radius: 0 0 8px 8px;
+}
+.envelope__seal {
+  position: absolute;
+  top: 55%; left: 50%; transform: translate(-50%, -50%);
+  width: 44px; height: 44px;
+  background: linear-gradient(135deg, var(--gold-primary) 0%, var(--gold-dark) 100%);
+  border-radius: 50%;
+  z-index: 5;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 1.2rem;
+  transition: opacity 0.3s ease;
+}
+.envelope__seal::before { content: '❤'; }
+
+.envelope__letter {
+  position: absolute;
+  bottom: 5%; left: 5%; width: 90%; height: 85%;
+  background: #fffdf9;
+  border-radius: 6px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  transform: translateY(0) scale(0.95);
+  transition: transform 0.6s var(--easing), z-index 0.6s;
+  z-index: 2;
+  display: flex; flex-direction: column; justify-content: center;
+  border: 1px solid #ebdcb2;
+}
+.envelope__title { font-family: var(--font-fancy); font-size: clamp(1.5rem, 2.5vw, 2.1rem); color: var(--text-dark); margin-bottom: 8px; min-height: 2rem; }
+.envelope__message { font-size: clamp(0.9rem, 1.6vw, 1.1rem); color: #444; line-height: 1.5; min-height: 4rem; }
+
+.envelope--opened .envelope__flap { transform: rotateX(180deg); z-index: 1; }
+.envelope--opened .envelope__seal { opacity: 0; pointer-events: none; }
+.envelope--opened .envelope__letter { transform: translateY(-37%) scale(1.04); z-index: 10; box-shadow: 0 15px 30px rgba(0,0,0,0.4); }
+
+/* ===== CONTROLES DE NAVEGACIÓN (CORREGIDO DE RAÍZ) ===== */
+
+/* 1. Forzamos al contenedor a ocupar todo el espacio y heredar el entorno 3D */
+.book-nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* Crucial: deja pasar los clics hacia el libro */
+  z-index: 99999 !important; /* Se posiciona por encima de absolutamente todo */
+  transform-style: preserve-3d; /* Clave: pasa el contexto 3D a los botones */
+}
+
+/* 2. Configuración unificada de los botones */
+.book-nav__btn {
+  position: absolute;
+  top: 50%; 
+  pointer-events: auto !important; /* Reactiva los clics únicamente sobre el botón */
+  background: rgba(44, 8, 51, 0.9) !important;
+  border: 2px solid var(--gold-primary) !important;
+  color: var(--gold-primary) !important;
+  font-size: 1.3rem;
+  width: 46px; 
+  height: 46px;
+  border-radius: 50%;
+  backdrop-filter: blur(4px);
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+
+  /* FUSIÓN MAESTRA: 
+     - Mantiene el centrado vertical (translateY -50%)
+     - Los expulsa hacia el frente de la pantalla (translateZ 500px) para que ninguna hoja los toque */
+  transform: translateY(-50%) translateZ(500px) !important;
+  backface-visibility: visible !important;
+}
+
+.book-nav__btn:hover:not(:disabled) { 
+  background: var(--gold-primary) !important; 
+  color: var(--text-dark) !important; 
+  box-shadow: 0 0 15px var(--gold-primary); 
+}
+
+/* 3. Posiciones laterales en pantallas grandes */
+.book-nav__btn--prev { 
+  left: -23px !important; 
+}
+.book-nav__btn--next { 
+  right: -23px !important; 
+}
+
+/* 4. Ocultar botones deshabilitados para evitar clics accidentales */
+.book-nav__btn:disabled { 
+  opacity: 0 !important;
+  pointer-events: none !important; 
+  cursor: not-allowed;
+}
+
+/* 5. Ajuste para pantallas móviles (Evita que las hojas los encimen en pantallas chicas) */
+@media (max-width: 768px) {
+  .book-nav__btn--prev { 
+    left: 15px !important; 
+  }
+  .book-nav__btn--next { 
+    right: 15px !important; 
+  }
+}
+/* ===== PANTALLA DE BIENVENIDA INTERACTIVA ===== */
+.welcome-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, #4a154b 0%, #150217 100%);
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+.welcome-overlay--hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.welcome-card {
+  background: linear-gradient(135deg, #3d0c40 0%, #1d0321 100%);
+  border: 3px solid var(--gold-primary);
+  padding: 40px 30px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+  max-width: 420px;
+  width: 90%;
+  animation: scaleIn 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.welcome-card__heart {
+  font-size: 3rem;
+  color: #d63031;
+  margin-bottom: 15px;
+  animation: pulseHeart 1.5s infinite ease-in-out;
+}
+
+.welcome-card__title {
+  font-family: var(--font-royal);
+  color: var(--gold-primary);
+  font-size: 1.8rem;
+  margin-bottom: 15px;
+  letter-spacing: 2px;
+}
+
+.welcome-card__text {
+  color: #f5f0f6;
+  font-family: var(--font-serif);
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 30px;
+  font-style: italic;
+}
+
+.welcome-card__btn {
+  background: transparent;
+  border: 2px solid var(--gold-primary);
+  color: var(--gold-primary);
+  font-family: var(--font-royal);
+  font-size: 1.1rem;
+  padding: 12px 35px;
+  border-radius: 30px;
+  cursor: pointer;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(214, 175, 55, 0.2);
+}
+
+.welcome-card__btn:hover {
+  background: var(--gold-primary);
+  color: var(--text-dark);
+  box-shadow: 0 0 20px var(--gold-primary);
+  transform: translateY(-2px);
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* ========================================================
+   REFORZAMIENTO 3D EN CAPAS: BOTONES SIEMPRE AL FRENTE
+   ======================================================== */
+#prevBtn, #nextBtn {
+  z-index: 9999 !important; 
+  pointer-events: auto !important; 
+  /* Mantiene el desplazamiento vertical original (-50%) junto con el empuje tridimensional (Z) */
+  transform: translateY(-50%) translateZ(450px) !important;
+  backface-visibility: visible !important;
+}
+
+#prevBtn:disabled, #nextBtn:disabled {
+  opacity: 0 !important;
+  pointer-events: none !important; 
+  cursor: not-allowed;
+}
