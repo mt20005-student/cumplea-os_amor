@@ -1,5 +1,5 @@
 import { pagesData } from './data.js';
-import { Book } from './Book.js';
+import { Book } from './book.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   // Inicialización global del libro romántico musical animado y decorado
