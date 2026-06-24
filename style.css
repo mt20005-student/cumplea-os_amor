@@ -2,7 +2,8 @@
 :root {
   --bg-gradient: radial-gradient(circle at center, #4a154b 0%, #150217 100%);
   --cover-bg: linear-gradient(135deg, #3d0c40 0%, #1d0321 100%);
-  --page-bg: linear-gradient(to right, #ffffff 0%, #a796b1 100%);
+  --page-bg-rigth: linear-gradient(to right, #ffffff 0%, #a796b1 100%);
+  --page-bg-left: linear-gradient(to left, #ffffff 0%, #a796b1 100%);
   --gold-primary: #d4af37;
   --gold-dark: #aa8413;
   --text-dark: #2c0833;
@@ -173,13 +174,13 @@ html, body {
   overflow: hidden;
 }
 .page-face--front {
-  background: var(--page-bg);
+  background: var(--page-bg-left);
   transform: rotateY(0deg) translateZ(1px);
   box-shadow: inset 25px 0 35px -20px rgba(0, 0, 0, 0.18);
   border-radius: 0 14px 14px 0;
 }
 .page-face--back {
-  background: var(--page-bg);
+  background: var(--page-bg-rigth);
   transform: rotateY(180deg) translateZ(1px);
   box-shadow: inset -25px 0 35px -20px rgba(0, 0, 0, 0.18);
   border-radius: 14px 0 0 14px;
