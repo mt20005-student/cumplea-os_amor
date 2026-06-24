@@ -2,7 +2,7 @@
 :root {
   --bg-gradient: radial-gradient(circle at center, #4a154b 0%, #150217 100%);
   --cover-bg: linear-gradient(135deg, #3d0c40 0%, #1d0321 100%);
-  --page-bg: linear-gradient(to right, #ecdff7 0%, #cc96e6 100%);
+  --page-bg: linear-gradient(to right, #ecdff7 0%, #6a477f 100%);
   --gold-primary: #d4af37;
   --gold-dark: #aa8413;
   --text-dark: #2c0833;
