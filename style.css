@@ -563,7 +563,7 @@ html, body {
   z-index: 9999 !important; 
   pointer-events: auto !important; 
   /* Mantiene el desplazamiento vertical original (-50%) junto con el empuje tridimensional (Z) */
-  transform: translateY(-50%) translateZ(200px) !important;
+  transform: translateY(-50%) translateZ(150px) !important;
   backface-visibility: visible !important;
 }
 
